@@ -28,21 +28,19 @@ namespace mantis_tests
         }
         private void SubmitRegistration()
         {
-            throw new NotImplementedException();
+            driver.FindElement(By.XPath("//input[@value='Зарегистрироваться']")).Click();
         }
 
         private void FillRegistrationForm(AccountData account)
         {
             driver.FindElement(By.Name("username")).SendKeys(account.Name);
             driver.FindElement(By.Name("email")).SendKeys(account.Email);
-            driver.FindElement(By.XPath("//input[@value='Зарегистрироваться']")).Click();
-
-
+            
         }
 
         private void OpenMainPage()
         {
-            manager.Driver.Url = "http://localhost/mantisbt-1.2.17/login_page.php";
+            manager.Driver.Url = "http://localhost/mantisbt/login_page.php";
         }
     }
 }

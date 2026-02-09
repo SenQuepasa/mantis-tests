@@ -17,7 +17,7 @@ namespace mantis_tests
         public static bool PERFORM_LONG_UI_CHECK = false;
         protected ApplicationManager app;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();
