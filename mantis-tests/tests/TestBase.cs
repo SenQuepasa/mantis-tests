@@ -16,11 +16,20 @@ namespace mantis_tests
     {
         public static bool PERFORM_LONG_UI_CHECK = false;
         protected ApplicationManager app;
+        protected LoginHelper loginHelper;
+        protected NavigationHelper navigationHelper;
+        protected ProjectHelper projectHelper;
+
+
 
         [OneTimeSetUp]
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();
+            loginHelper = new LoginHelper(app);
+            navigationHelper = new NavigationHelper(app);
+            projectHelper = new ProjectHelper(app);
+
         }
 
         public static Random rnd = new Random();
