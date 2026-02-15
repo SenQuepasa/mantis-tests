@@ -21,7 +21,7 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//input[@value='Добавить проект']")).Click();
         }
 
-        public void FillProjectForm()
+        public void FillProjectForm(ProjectData project)
         {
             string uniqueProjectName = "test_project_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
             driver.FindElement(By.Id("project-name")).Click();
@@ -33,6 +33,13 @@ namespace mantis_tests
         {
             driver.FindElement(By.XPath("//button[@type='submit']")).Click();
         }
-
+        public IList<IWebElement> CountOfProjects()
+        {
+            driver.Navigate().GoToUrl("http://localhost/mantisbt/manage_overview_page.php");
+            driver.Navigate().GoToUrl("http://localhost/mantisbt/manage_proj_page.php");
+            string projects = "//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr/td/a";
+            IList<IWebElement> elements = driver.FindElements(By.XPath(projects));
+            return elements;
+        }
     }
 }
