@@ -20,6 +20,12 @@ namespace mantis_tests
         {
             driver.FindElement(By.XPath("//input[@value='Добавить проект']")).Click();
         }
+        public void SelectProject()
+        {
+            driver.FindElement(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr/td/a")).Click();
+        }
+        
+
 
         public void FillProjectForm(ProjectData project)
         {
@@ -40,6 +46,15 @@ namespace mantis_tests
             string projects = "//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr/td/a";
             IList<IWebElement> elements = driver.FindElements(By.XPath(projects));
             return elements;
+        }
+
+        public void InitDel()
+        {
+            driver.FindElement(By.XPath("//form[@id='manage-proj-update-form']/div/div[3]/button[2]")).Click();
+        }
+        public void ConfirmDel()
+        {
+            driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
         }
     }
 }
