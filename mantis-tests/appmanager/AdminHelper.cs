@@ -36,7 +36,7 @@ namespace mantis_tests
                 Match m = Regex.Match(href, @"\d+$");
                 string id = m.Value;
 
-                accounts.Add(new AccountData()
+                accounts.Add(new AccountData("kek","cheburek")
                 {
                     Name = name,
                     Id = id

@@ -24,7 +24,7 @@ namespace mantis_tests
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
 
-        private ApplicationManager()
+        public ApplicationManager()
         {
             this.driver = new FirefoxDriver();
             baseURL = "http://localhost/mantisbt";

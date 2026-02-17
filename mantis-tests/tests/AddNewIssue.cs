@@ -14,7 +14,7 @@ namespace mantis_tests
         [Test]
         public void AddNewIssue()
         {
-            AccountData account = new AccountData()
+            AccountData account = new AccountData("administrator", "root")
             {
                 Name = "administrator",
                 Password = "root"
@@ -22,7 +22,7 @@ namespace mantis_tests
 
             ProjectData project = new ProjectData()
             {
-                Id = "1"
+                Id = "5"
              };
 
             IssueData issue = new IssueData()

@@ -19,6 +19,8 @@ namespace mantis_tests
         protected LoginHelper loginHelper;
         protected NavigationHelper navigationHelper;
         protected ProjectHelper projectHelper;
+        protected ApplicationManager _manager;
+
 
 
 
@@ -29,6 +31,7 @@ namespace mantis_tests
             loginHelper = new LoginHelper(app);
             navigationHelper = new NavigationHelper(app);
             projectHelper = new ProjectHelper(app);
+            _manager = new ApplicationManager();
 
         }
 
