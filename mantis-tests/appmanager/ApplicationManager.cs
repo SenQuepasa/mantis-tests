@@ -18,6 +18,8 @@ namespace mantis_tests
 
         public RegistrationHelper Registration { get; }
         public FtpHelper Ftp { get; set; }
+        public AdminHelper Admin { get; set; }
+        public APIHelper API { get; set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
@@ -25,9 +27,13 @@ namespace mantis_tests
         private ApplicationManager()
         {
             this.driver = new FirefoxDriver();
-            baseURL = "http://localhost/addressbook";
+            baseURL = "http://localhost/mantisbt";
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
+            Admin = new AdminHelper(this, baseURL);
+            API = new APIHelper(this);
+
+
 
         }
 

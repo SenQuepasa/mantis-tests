@@ -11,12 +11,16 @@ namespace mantis_tests
 {
     public class AccountData 
     {
-        public AccountData(string name, string email, string password)
-        {
-            Name = name;
-            Email = email;
-            Password = password;
-        }
+        //public AccountData(string name, string email, string password)
+        //{
+        //    Name = name;
+        //    Email = email;
+        //    Password = password;
+        //}
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Id { get; set; }
         public bool Equals(AccountData other)
         {
             if (Object.ReferenceEquals(other, null))
@@ -48,11 +52,7 @@ namespace mantis_tests
             }
             return Name.CompareTo(other.Name);
         }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-
-
+      
     }
 
 }

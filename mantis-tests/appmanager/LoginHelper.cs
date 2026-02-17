@@ -20,7 +20,6 @@ namespace mantis_tests
             driver.FindElement(By.Id("username")).Clear();
             driver.FindElement(By.Id("username")).SendKeys("administrator");
             driver.FindElement(By.XPath("//input[@value='Вход']")).Click();
-           // driver.Navigate().GoToUrl("http://localhost/mantisbt/login_password_page.php");
             driver.FindElement(By.Id("password")).Clear();
             driver.FindElement(By.Id("password")).SendKeys("root");
             driver.FindElement(By.XPath("//input[@value='Вход']")).Click();

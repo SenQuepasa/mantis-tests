@@ -11,10 +11,14 @@ namespace mantis_tests
 {
     public class ProjectData : IEquatable<ProjectData>, IComparable<ProjectData>
     {
-        public ProjectData(string name)
-        {
-            Name = name;
-        }
+        public ProjectData() { }
+
+
+        public string Id { get; set; }
+        public string Name { get; set; }
+
+        public ProjectData(string Name) { }
+
         public bool Equals(ProjectData other)
         {
             if (Object.ReferenceEquals(other, null))
@@ -46,7 +50,6 @@ namespace mantis_tests
             }
             return Name.CompareTo(other.Name);
         }
-        public string Name { get; set; }
     }
-
 }
+
