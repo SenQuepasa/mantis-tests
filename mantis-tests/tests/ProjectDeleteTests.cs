@@ -67,7 +67,6 @@ namespace mantis_tests
             // 6. Проверяем, что количество уменьшилось на 1
             Assert.That(newProjects.Count, Is.EqualTo(oldProjects.Count - 1));
 
-            // Дополнительно: проверяем, что удалённый проект отсутствует в списке
             Assert.That(newProjects, Is.Not.Contains(projectToDelete));
         }
     }
