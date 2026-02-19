@@ -24,6 +24,20 @@ namespace mantis_tests
         public APIHelper(ApplicationManager manager) : base(manager)
         {
         }
+        public class ApiProject
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public string Status { get; set; } // например, "active", "closed"
+            // другие поля из MantisConnect WSDL
+
+            public ApiProject(Mantis.ProjectData project)
+            {
+                Id = project.id;
+                Name = project.name;
+                Status = project.status.name;
+            }
+        }
         // Метод для создания проекта через MantisConnect
         public string CreateProjectViaApi(AccountData account, ProjectData project)
         {
@@ -68,20 +82,20 @@ namespace mantis_tests
 
         }
 
-        public static IList<IWebElement> APICountOfProjects(AccountData account, ProjectData project)
+        public static IList<ApiProject> APICountOfProjects(AccountData account)
         {
             Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            IList<ApiProject> projectsList = new List<ApiProject>();
 
             try
             {
-                var projects = client.mc_projects_get_user_accessible("administrator", "root");
+                var soapProjects = client.mc_projects_get_user_accessible(account.Name, account.Password);
 
-                var elements = new List<IWebElement>();
-                foreach (var proj in projects)
+                foreach (var soapProject in soapProjects)
                 {
-                    elements.Add(new MockWebElement(proj.name));
+                    projectsList.Add(new ApiProject(soapProject));
                 }
-                return elements;
+                return projectsList;
             }
             catch (Exception ex)
             {
@@ -93,7 +107,21 @@ namespace mantis_tests
                     client.Close();
             }
         }
-       public class MockWebElement : IWebElement
+
+        public static void DeleteProjectViaApi(AccountData account, string projectId)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+
+            try
+            {
+                client.mc_project_delete(account.Name, account.Password, projectId);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Не удалось удалить проект через MantisConnect", ex);
+            }
+        }
+        public class MockWebElement : IWebElement
 {
     private readonly string _text;
 

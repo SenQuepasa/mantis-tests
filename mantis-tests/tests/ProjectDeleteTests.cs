@@ -1,12 +1,13 @@
-﻿using System;
+﻿using mantis_tests;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using mantis_tests;
+using static mantis_tests.APIHelper;
 
 
 namespace mantis_tests
@@ -29,52 +30,45 @@ namespace mantis_tests
 
 
         [Test]
-        public void projectApiDelete()
+        public void ProjectApiDelete()
         {
-            // 1. Логинимся и переходим на страницу проектов
-            loginHelper.Login();
-            navigationHelper.GoToManagePage();
-            navigationHelper.GoToProjectsPage();
+            // Данные для авторизации
+            AccountData account = new AccountData("administrator", "root");
 
-            // 2. Получаем текущий список проектов через UI
-            IList<IWebElement> oldProjects = projectHelper.CountOfProjects();
+            // 1. Получаем текущий список проектов через API
+            IList<ApiProject> oldProjects = APIHelper.APICountOfProjects(account);
 
-            // 3. Если проектов нет — создаём один через API
+            // 2. Если проектов нет — создаём один через API
             if (oldProjects.Count == 0)
             {
                 Console.WriteLine("Нет проектов для удаления. Создаём проект через API...");
 
-                // Данные для авторизации
-                AccountData account = new AccountData("administrator", "root");
-
-                // Новый проект
                 ProjectData newProject = new ProjectData(
                     "auto_created_" + DateTime.Now.ToString("yyyyMMdd_HHmmss")
                 );
 
-                // Создаём через API
-                APIHelper apiHelper = new APIHelper(_manager); // Передаём ApplicationManager
-                                                               // Создаём экземпляр APIHelper
-                // Вызываем метод через экземпляр
+                APIHelper apiHelper = new APIHelper(_manager);
                 string projectId = apiHelper.CreateProjectViaApi(account, newProject);
 
                 Console.WriteLine($"Проект создан через API. ID: {projectId}");
 
                 // Обновляем список проектов после создания
-                oldProjects = projectHelper.CountOfProjects();
+                oldProjects = APIHelper.APICountOfProjects(account);
             }
 
-            // 4. Теперь точно есть проекты — выбираем один и удаляем
-            projectHelper.SelectProject(); // Выбираем первый проект в списке
-            projectHelper.InitDel();     // Начинаем удаление
-            projectHelper.ConfirmDel();   // Подтверждаем удаление
+            // 3. Выбираем проект для удаления (например, первый в списке)
+            ApiProject projectToDelete = oldProjects.First();
 
-
-            // 5. Получаем новый список проектов
-            IList<IWebElement> newProjects = projectHelper.CountOfProjects();
+            // 4. Удаляем проект через API
+            APIHelper.DeleteProjectViaApi(account, projectToDelete.Id);
+            // 5. Получаем новый список проектов через API
+            IList<ApiProject> newProjects = APIHelper.APICountOfProjects(account);
 
             // 6. Проверяем, что количество уменьшилось на 1
             Assert.That(newProjects.Count, Is.EqualTo(oldProjects.Count - 1));
+
+            // Дополнительно: проверяем, что удалённый проект отсутствует в списке
+            Assert.That(newProjects, Is.Not.Contains(projectToDelete));
         }
     }
 }
